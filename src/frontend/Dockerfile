@@ -1,10 +1,15 @@
-#Image de base nginx, un serveur web très utilisé
 FROM nginx:latest
-# Copie vos fichiers statiques dans le répertoire par défaut d'NGINX
+
+# Copier les fichiers du frontend
 COPY . /usr/share/nginx/html
 
-# Expose le port 80 pour servir l'application
+# Copier le script d’entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 80
 
-# Démarre NGINX
+# Génère config.js puis démarre nginx
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
+
