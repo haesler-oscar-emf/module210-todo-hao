@@ -1,5 +1,5 @@
 //const apiEndpoint = "https://fa-todo-backend-baqmes.azurewebsites.net/api/tasks";
-const apiEndpoint = "__API_ENDPOINT__";
+const apiEndpoint = `https://containerapp.happyplant-06daf9f7.northeurope.azurecontainerapps.io/api/tasks`;
 
 $(document).ready(function () {
   // Charger les tâches au démarrage

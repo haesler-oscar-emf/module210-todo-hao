@@ -1,27 +1,21 @@
-// Use the MariaDB Node.js Connector
-var mariadb = require('mariadb');
-
+const mariadb = require('mariadb');
+const fs = require('fs');
 require('dotenv').config();
 
-// 1.) Access the Node File System package
-//const fs = require("fs");
+// Supprimer ou commenter la lecture du certificat SSL
+// const sslCert = fs.readFileSync(process.env.DB_SSL_CA, 'utf8');
 
-// 2.) Retrieve the Certificate Authority chain file (wherever you placed it - notice it's just in the Node project root here)
-//const serverCert = [fs.readFileSync("skysql_chain.pem", "utf8")];
+const pool = mariadb.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  port: parseInt(process.env.DB_PORT, 10) || 3306,
+  connectionLimit: 10
 
-// Create a connection pool
-var pool = 
-  mariadb.createPool({
-    host: process.env.DB_HOST, 
-    user: process.env.DB_USER, 
-    password: process.env.DB_PASS,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME //,
-    // 3.) Add an "ssl" property to the connection pool configuration, using the serverCert const defined above
-    /*ssl: {
-      ca: serverCert
-    }*/
-  });
+  // Si un jour tu remets SSL, tu peux réactiver ceci :
+  // ssl: { ca: sslCert }
+});
 
 // Expose the Pool object within this module
 module.exports = Object.freeze({

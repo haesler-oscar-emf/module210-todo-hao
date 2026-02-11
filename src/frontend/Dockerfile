@@ -1,15 +1,16 @@
 FROM nginx:latest
 
-# Copier les fichiers du frontend
+# Copie vos fichiers statiques dans le répertoire par défaut d'NGINX
+
 COPY . /usr/share/nginx/html
 
-# Copier le script d’entrypoint
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+
+# Expose le port 80 pour servir l'application
 
 EXPOSE 80
 
-# Génère config.js puis démarre nginx
-ENTRYPOINT ["/entrypoint.sh"]
+
+# Démarre NGINX
+
 CMD ["nginx", "-g", "daemon off;"]
 
