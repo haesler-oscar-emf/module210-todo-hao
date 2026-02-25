@@ -51,11 +51,12 @@ jobs:
         uses: actions/checkout@v4
       - name: Vérifier que index.html existe
         run: |
-          if [ ! -f frontend/index.html ]; then
+          if [ ! -f src/frontend/index.html ]; then
             echo "Manque le fichier index.html"
             exit 1
           else
             echo "Fichier index.html présent"
           fi
+
 
 
