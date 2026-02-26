@@ -12,3 +12,4 @@ COPY . .
 EXPOSE 8080
 # Démarrer l'application
 CMD [ "npm", "start" ]
+# Test ci-backend
