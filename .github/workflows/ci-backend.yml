@@ -1,0 +1,36 @@
+name: CI Backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/backend/**'  # Déclenche uniquement si des fichiers dans backend/ changent
+env:
+  REG_NAME: "acrfi21210.azurecr.io"  # Nom du registry
+  IMAGE_NAME: "backend-hao"  # Nom de votre image
+  
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+ 
+ 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+ 
+      - name: Login to Docker registry
+        run: |
+          echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REG_NAME }} -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
+ 
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.REG_NAME }}/${{ env.IMAGE_NAME }}:${{github.sha}} ./src/backend
+ 
+      - name: Push Docker image to registry
+        run: |
+          docker push ${{ env.REG_NAME }}/${{ env.IMAGE_NAME }}:${{github.sha}}
+ 
+      - name: Logout from registry
+        run: |
+          docker logout ${{ env.REG_NAME }}
